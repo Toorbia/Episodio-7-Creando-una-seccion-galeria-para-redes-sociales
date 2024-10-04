@@ -1,0 +1,114 @@
+ <div class="gallery">
+   {%- for block in section.blocks -%}
+        <div class="gallery-item">
+          {% if block.settings.urlSocial != blank %}
+          <a href="{{ block.settings.urlSocial }}" target="_blank" > 
+            {% endif %}
+            {% if block.settings.imageSocial != blank %}
+            <img src="{{ block.settings.imageSocial | image_url }}" alt="{{ block.settings.select-instagram | escape }}" width="400" height="400">
+             {% endif %} 
+            {% render "ico-social-instagram" %}
+            {% if block.settings.urlSocial != blank %}
+          </a>
+            {% endif %}
+        </div>
+  {% endfor %}
+</div>
+
+<style>
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .gallery-item:hover img {
+    transform: scale(1.1);
+  }
+  .instagram-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .gallery-item:hover .instagram-logo {
+    opacity: 1;
+  }
+  @media (max-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .gallery-item:nth-child(n+5) {
+      display: none;
+    }
+  }
+</style>
+          
+{% schema %}
+  {
+    "name": "Social Instagram",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+    "groups": ["header", "footer"]
+    },
+    "settings": [
+      {
+      "type": "header",
+      "content": "Sección Social"
+      }
+    ],
+    "blocks": [
+      {
+      "type": "image_picker",
+      "name": "Imagen Social",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "select-instagram",
+          "default": "Tu red social",
+          "label": "Social",
+          "info": "Social"
+        },
+        {
+          "type": "checkbox",
+          "id": "select-tiktok",
+          "default": false,
+          "label": "TikTok"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageSocial",
+          "label": "Imagen"
+        },
+        {
+          "type": "url",
+          "id": "urlSocial",
+          "label": "Url:"
+        }
+      ],
+    }
+    ],
+    "presets": [
+      {
+      "name": "Social Instagram"
+      }
+    ]
+  }
+{% endschema %}
